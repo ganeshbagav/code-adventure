@@ -1,0 +1,116 @@
+https://leetcode.com/problems/product-of-array-except-self
+
+
+Brute Force (Time Limit Exceeded)
+
+Time  : O(n^n)
+Space : O(1)
+
+Code : 
+
+    class Solution {
+    public:
+        vector<int> productExceptSelf(vector<int>& nums) {
+            int n = nums.size();
+            vector<int> ans;
+            for(int i=0 ; i<n ; i++){
+                int prod=1;
+                for(int j=0 ; j<n ; j++){
+                    if(j==i){
+                        continue;
+                    }
+                    prod*=nums[j];
+                }
+                ans.push_back(prod);
+            }
+            return ans;
+        }
+    };
+
+However, it's worth noting that this code has a time complexity of O(n^2),
+as it uses nested loops to calculate the products. There are more efficient
+algorithms for solving this problem in O(n) time.
+
+
+Optumized Solution
+
+Time  : O(n)
+Space : O(n)
+
+
+Code:
+    class Solution {
+        public:
+            vector<int> productExceptSelf(vector<int>& nums) {
+                int n = nums.size();
+                vector<int> ans(n);
+                vector<int> left(n);
+                vector<int> right(n);
+                left[0]=1;
+                for(int i=1 ; i<n ; i++){
+                    left[i] = left[i-1] * nums[i-1];
+                }
+                right[n-1]=1;
+                for(int i=n-2 ; i>-1 ; i--){
+                    right[i] = right[i+1] * nums[i+1];
+                }
+
+                for(int i=0 ; i<n ; i++){
+                    ans[i] = left[i]*right[i];
+                }
+                return ans;
+            }
+    };
+
+This code defines a C++ class named "Solution" with a member function "productExceptSelf." 
+The purpose of this function is to compute a new vector of integers, where each element represents 
+the product of all elements in the input vector "nums," except for the element at the same position.
+This can be done more efficiently compared to the previous code you provided.
+
+Here's a step-by-step explanation of the code:
+
+1. `int n = nums.size();`: It calculates the size of the input vector "nums" and stores
+    it in the variable "n." This variable represents the number of elements in the input vector.
+
+2. `vector<int> ans(n);`: It initializes an empty vector of integers named "ans" with the same 
+    size as the input vector "nums." This vector will store the final results, and initializing 
+    it with size "n" helps in avoiding unnecessary dynamic resizing.
+
+3. `vector<int> left(n);` and `vector<int> right(n);`: Two additional vectors, "left" and "right," 
+    are initialized with the same size as the input vector. These vectors will be used to store the 
+    products of all elements to the left and right of each element in the input vector "nums."
+
+4. `left[0] = 1;`: The first element of the "left" vector is initialized to 1 since there are no elements 
+    to the left of the first element.
+
+5. A loop is used to fill the "left" vector. It starts from the second element (index 1) and iterates through
+    the end of the vector.
+
+    - `left[i] = left[i - 1] * nums[i - 1];`: For each element in the "left" vector, it calculates the product 
+    of all elements to the left of the current element. This is done by multiplying the previous element in the "left" 
+    vector with the corresponding element in the "nums" vector.
+
+6. `right[n-1] = 1;`: The last element of the "right" vector is initialized to 1 since there are no elements to the 
+    right of the last element.
+
+7. Another loop is used to fill the "right" vector in reverse order. It starts from the second-to-last element and 
+    iterates to the beginning of the vector.
+
+    - `right[i] = right[i + 1] * nums[i + 1];`: For each element in the "right" vector, it calculates the product of 
+    all elements to the right of the current element. This is done by multiplying the next element in the "right" vector 
+    with the corresponding element in the "nums" vector.
+
+8. Finally, a loop iterates through each element in the input vector "nums," and for each element at index "i," it 
+    calculates the final result as the product of the corresponding elements in the "left" and "right" vectors and stores 
+    it in the "ans" vector.
+
+9. The function returns the "ans" vector, which contains the "product except self" for each element in the input vector "nums."
+
+This implementation has a time complexity of O(n), which is much more efficient than the previous code you provided with
+ nested loops (O(n^2)).
+
+
+
+
+
+
